@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using vidly.Models;
+using vidly.ViewModels;
 
 namespace vidly.Controllers
 {
@@ -20,6 +21,65 @@ namespace vidly.Controllers
         protected override void Dispose(bool disposing)
         {
             _context.Dispose();
+        }
+        // Action Modify Data
+        [HttpPost]
+        public ActionResult Save(Customer customer)
+        {
+
+            if (customer.Id == 0)
+            {
+                // Only storing them in the memory but db
+                _context.Customers.Add(customer);
+            }
+            else
+            {
+                var customerInDb = _context.Customers.Single(c => c.Id == customer.Id);
+
+                // not ideal as it allows the security on all objects on the page
+                // TryUpdateModel(customerInDb);
+
+                // ******************************************************
+                // Alternative Solution is to declare the field individually
+                customerInDb.Name = customer.Name;
+                customerInDb.Dob = customer.Dob;
+                customerInDb.MembershipTypeId = customer.MembershipTypeId;
+                customerInDb.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
+
+
+                // ******************************************************
+                // Using a mapper
+                // Mapper.Map(customer, CustomerInDb);
+
+            }
+            // This will save them on the db
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Customers");
+        }
+        public ActionResult New()
+        {
+            var membershipTypes = _context.MembershipTypes.ToList();
+            var viewModel = new CustomerFormViewModel
+            {
+                MembershipTypes = membershipTypes
+            };
+            return View("CustomerForm", viewModel);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+
+            if (customer == null)
+                return HttpNotFound();
+
+            var viewModel = new CustomerFormViewModel()
+            {
+                Customer = customer,
+                MembershipTypes = _context.MembershipTypes.ToList()
+            };
+
+            return View("CustomerForm", viewModel);
         }
 
         // GET: Customers
