@@ -7,13 +7,13 @@
 <h2>Movies</h2>
 @Html.ActionLink("New Movie", "New", "Movies", new { @class="btn btn-primary"})
 <br /><br />
-<table class="table table-bordered table-hover">
+<table id="movies" class="table table-bordered table-hover">
     <thead>
-        <tr>
-            <td><b>Movies</b></td>
-            <td><b>Genre</b></td>
-            <td>Actions</td>
-        </tr>
+    <tr>
+        <td><b>Movies</b></td>
+        <td><b>Genre</b></td>
+        <td>Actions</td>
+    </tr>
     </thead>
     <tbody>
     @foreach (var movie in Model)
@@ -29,4 +29,12 @@
     }
     </tbody>
 </table>
+@section scripts {
+    <script>
+        $(document).ready(function(){
+            var table = $("#movies").DataTable();
+
+        })
+    </script>
+}
 
