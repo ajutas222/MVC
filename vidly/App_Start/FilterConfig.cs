@@ -8,6 +8,10 @@ namespace vidly
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            // Apply globally
+            filters.Add(new AuthorizeAttribute());
+            // Force SSL Login access only
+            filters.Add(new RequireHttpsAttribute());
         }
     }
 }

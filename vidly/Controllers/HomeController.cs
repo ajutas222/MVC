@@ -8,6 +8,8 @@ namespace vidly.Controllers
 {
     public class HomeController : Controller
     {
+        // This will allow access to the controller
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();

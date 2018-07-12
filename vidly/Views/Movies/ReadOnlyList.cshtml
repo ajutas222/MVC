@@ -1,0 +1,35 @@
+﻿@model IEnumerable<vidly.Models.Movie>
+@{
+    ViewBag.Title = "Movies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Movies</h2>
+<br /><br />
+<table id="movies" class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <td><b>Movies</b></td>
+        <td><b>Genre</b></td>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var movie in Model)
+    {
+        <tr>
+            <td>@movie.Name</td>
+            <td>@movie.Genre.Name</td>
+            
+        </tr>
+    }
+    </tbody>
+</table>
+@section scripts {
+    <script>
+        $(document).ready(function(){
+            var table = $("#movies").DataTable();
+
+        })
+    </script>
+}
+
