@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Web;
 using System.Web.Mvc;
 using vidly.Models;
@@ -100,7 +101,13 @@ namespace vidly.Controllers
             // ********* Commenting out to test out the dataTables
             // var customers = _context.Customers.Include(c => c.MembershipType).ToList();
             // return View(customers);
+            // Sample of data cache
+            //if (MemoryCache.Default["Genres"] == null)
+            //{
+            //    MemoryCache.Default["Genres"] = _context.Genres.ToList();
+            //}
 
+            //var genres = MemoryCache.Default["Genres"] as IEnumerable<Genre>;
             return View();
         }
 
